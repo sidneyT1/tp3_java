@@ -28,29 +28,34 @@ public class Parcelle {
     {
         return this.surface;
     }
-    public ArrayList<TraitementPhytosanitaire> GetLesTraitementsPhytosanitaires(){
+
+    public ArrayList<TraitementPhytosanitaire> GetLesTraitementsPhytosanitaires()
+    {
         return this.lesTraitementsPhyto;
     }
+
     public void AjouteUnTraitement(TraitementPhytosanitaire unTraitement){
         this.lesTraitementsPhyto.add(unTraitement);
     }
-    public double GetTauxTraitementSemence() {
-        double sommeQuantiteAppliquee = 0;
 
-        for (TraitementPhytosanitaire traitement : lesTraitementsPhyto)
-        {
-            if (traitement instanceof TraitementSemence)
-            {
-                sommeQuantiteAppliquee += traitement.QuantiteAppliquee();
+    public double GetTauxTraitementSemence()
+    {
+        int nbTraitementsSemence = 0;
+        int nbTraitementsTotal = lesTraitementsPhyto.size();
+
+
+        for (TraitementPhytosanitaire traitement : lesTraitementsPhyto) {
+            if (traitement instanceof TraitementSemence) {
+                nbTraitementsSemence++;
             }
         }
-        if (this.surface > 0)
-        {
-            return (sommeQuantiteAppliquee / this.surface) * 100;
-        } else
-        {
 
+
+        if (nbTraitementsTotal == 0) {
             return 0;
         }
+
+
+        return ((double) nbTraitementsSemence / nbTraitementsTotal) * 100;
     }
 }

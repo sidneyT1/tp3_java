@@ -8,11 +8,14 @@ public class TraitementEnChamp extends TraitementPhytosanitaire
 
     public TraitementEnChamp(String unId, ProduitPhytosanitaire leProduitPhyto, Parcelle laParcelleCultivee) {
         super(unId, leProduitPhyto, laParcelleCultivee);
+        lesPulverisations = new ArrayList<>();
     }
 
-    public ArrayList<Pulverisation> getLesPulverisations() {
+    public ArrayList<Pulverisation> getLesPulverisations()
+    {
         return lesPulverisations;
     }
+
     @Override
     public double QuantiteAppliquee()
     {

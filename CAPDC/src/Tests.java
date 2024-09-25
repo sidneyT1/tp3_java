@@ -1,51 +1,52 @@
-package sio.capdc.metier;
+import sio.capdc.metier.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Tests {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
-        ProduitPhytosanitaire produit1 = new ProduitPhytosanitaire("P1", "A");
-        ProduitPhytosanitaire produit2 = new ProduitPhytosanitaire("P2", "B");
-
-
-        Parcelle maParcelle = new Parcelle("P1", "H", "Blé", LocalDate.of(2024, 3, 1), LocalDate.of(2024, 8, 22), 5);
+        Parcelle parcelle = new Parcelle("P1", "Exploitant1", "Maïs", LocalDate.of(2022, 3, 15), LocalDate.of(2022, 9, 15), 10000);
 
 
-        TraitementSemence traitementSemence1 = new TraitementSemence("TS1", produit1, maParcelle, 1.0);
-        TraitementSemence traitementSemence2 = new TraitementSemence("TS2", produit2, maParcelle, 0.5);
-        maParcelle.AjouteUnTraitement(traitementSemence1);
-        maParcelle.AjouteUnTraitement(traitementSemence2);
+        ProduitPhytosanitaire produit1 = new ProduitPhytosanitaire("P1", "Produit1");
+        ProduitPhytosanitaire produit2 = new ProduitPhytosanitaire("P2", "Produit2");
+
+        TraitementSemence traitementSemence1 = new TraitementSemence("TS1", produit1, parcelle, 0.1);
+        TraitementSemence traitementSemence2 = new TraitementSemence("TS2", produit2, parcelle, 0.2);
 
 
-        TraitementEnChamp traitementEnChamp = new TraitementEnChamp("TC1", produit1, maParcelle);
+        parcelle.AjouteUnTraitement(traitementSemence1);
+        parcelle.AjouteUnTraitement(traitementSemence2);
 
 
-        traitementEnChamp.getLesPulverisations().add(new Pulverisation("P1", 0.25, LocalDate.of(2024, 6, 1)));
-        traitementEnChamp.getLesPulverisations().add(new Pulverisation("P2", 0.30, LocalDate.of(2024, 6, 15)));
-        traitementEnChamp.getLesPulverisations().add(new Pulverisation("P3", 0.20, LocalDate.of(2024, 7, 1)));
-        traitementEnChamp.getLesPulverisations().add(new Pulverisation("P4", 0.15, LocalDate.of(2024, 7, 15)));
+        TraitementEnChamp traitementEnChamp = new TraitementEnChamp("TEC1", produit1, parcelle);
 
 
-        maParcelle.AjouteUnTraitement(traitementEnChamp);
+        Pulverisation pulverisation1 = new Pulverisation("P1", 5, LocalDate.of(2022, 4, 15));
+        Pulverisation pulverisation2 = new Pulverisation("P2", 10, LocalDate.of(2022, 5, 15));
+        Pulverisation pulverisation3 = new Pulverisation("P3", 15, LocalDate.of(2022, 6, 15));
+        Pulverisation pulverisation4 = new Pulverisation("P4", 20, LocalDate.of(2022, 7, 15));
 
-        System.out.println("Liste  :");
-        for (TraitementPhytosanitaire traitement : maParcelle.GetLesTraitementsPhytosanitaires()) {
-            String typeTraitement = traitement instanceof TraitementSemence ? "Traitement Semence" : "Traitement en Champ";
-            String produit = traitement.getLeProduitPhyto().getLibelle();
-            double quantiteAppliquee = traitement.QuantiteAppliquee();
 
-            System.out.println("Type : " + typeTraitement + ", Produit : " + produit + ", Quantité appliquée : " + quantiteAppliquee);
+        traitementEnChamp.getLesPulverisations().add(pulverisation1);
+        traitementEnChamp.getLesPulverisations().add(pulverisation2);
+        traitementEnChamp.getLesPulverisations().add(pulverisation3);
+        traitementEnChamp.getLesPulverisations().add(pulverisation4);
+
+
+        parcelle.AjouteUnTraitement(traitementEnChamp);
+
+
+        for (TraitementPhytosanitaire traitement : parcelle.GetLesTraitementsPhytosanitaires())
+        {
+            System.out.println("Type " + traitement.getClass().getSimpleName());
+            System.out.println("Produit " + traitement.getLeProduitPhyto().getLibelle());
+            System.out.println("Quantité appliquée "+ traitement.QuantiteAppliquee());
+            System.out.println();
         }
 
 
-        double tauxTraitementSemence = maParcelle.GetTauxTraitementSemence();
-        System.out.println("Taux de traitement en semence : " + tauxTraitementSemence + "%");
-
-
-
-
+        System.out.println("Taux traitement semence " + parcelle.GetTauxTraitementSemence() + "%");
     }
 }
